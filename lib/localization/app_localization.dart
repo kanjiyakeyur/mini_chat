@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:mini_chat/core/navigator_service.dart';
 
 // Project imports:
-import 'ar/ar_translations.dart';
 import 'en/en_translations.dart';
 
 extension LocalizationExtension on String {
@@ -19,7 +18,6 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': en,
-    'ar': ar
   };
 
   static AppLocalization of() {

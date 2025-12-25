@@ -1,15 +1,44 @@
-
 import 'package:flutter/material.dart';
+import 'package:mini_chat/widgets/custom_bottom_bar.dart';
 
-class DashboardScreen extends StatelessWidget {
+import 'package:mini_chat/presentation/setting/screen/setting_screen.dart';
+
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  Widget _getCurrentPage(BottomBarEnum type) {
+    switch (type) {
+      case BottomBarEnum.Home:
+        return const Center(
+          child: Text("Home Dashboard Content"),
+        ); // Placeholder for now or actual content
+      case BottomBarEnum.Setting:
+        return const SettingScreen();
+      case BottomBarEnum.Profile:
+        return const SettingScreen();
+    }
+  }
+
+  BottomBarEnum _selectedMenu = BottomBarEnum.Home;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
+      body: _getCurrentPage(_selectedMenu),
+      bottomNavigationBar: CustomBottomBar(
+        onChanged: (BottomBarEnum type) {
+          setState(() {
+            _selectedMenu = type;
+          });
+        },
       ),
-          );
+    );
   }
 }

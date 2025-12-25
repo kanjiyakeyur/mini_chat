@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
 import 'package:mini_chat/localization/app_localization.dart';
@@ -6,10 +5,7 @@ import 'package:mini_chat/theme/custom_box_decoration.dart';
 import 'package:mini_chat/theme/custom_text_style.dart';
 import 'package:mini_chat/theme/theme_helper.dart';
 
-enum BottomBarEnum {
-  Home,
-  Profile,
-}
+enum BottomBarEnum { Home, Setting, Profile }
 
 // ignore_for_file: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
@@ -21,7 +17,6 @@ class CustomBottomBar extends StatefulWidget {
   CustomBottomBarState createState() => CustomBottomBarState();
 }
 
-// ignore_for_file: must_be_immutable
 class CustomBottomBarState extends State<CustomBottomBar> {
   int selectedIndex = 0;
 
@@ -33,11 +28,17 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
+      icon: Icons.settings,
+      activeIcon: Icons.settings,
+      title: "lbl_setting".tr,
+      type: BottomBarEnum.Setting,
+    ),
+    BottomMenuModel(
       icon: Icons.person,
       activeIcon: Icons.person,
       title: "lbl_profile".tr,
       type: BottomBarEnum.Profile,
-    )
+    ),
   ];
 
   @override
@@ -45,19 +46,14 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     return Container(
       decoration: BoxDecoration(
         color: appTheme.white,
-        borderRadius: BorderRadius.circular(
-          12.h,
-        ),
+        borderRadius: BorderRadius.circular(12.h),
         boxShadow: [
           BoxShadow(
             color: appTheme.primaryGray,
             spreadRadius: 1.h,
             blurRadius: 1.h,
-            offset: Offset(
-              0,
-              -3,
-            ),
-          )
+            offset: Offset(0, -3),
+          ),
         ],
       ),
       child: BottomNavigationBar(
@@ -80,9 +76,9 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                   children: [
                     Icon(
                       bottomMenuList[index].icon,
-                      size: 16.h,     
+                      size: 16.h,
                       color: appTheme.white,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -93,9 +89,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
             icon: SizedBox(
               width: double.maxFinite,
               child: Padding(
-                padding: EdgeInsetsDirectional.symmetric(
-                  vertical: 16.h,
-                ),
+                padding: EdgeInsetsDirectional.symmetric(vertical: 16.h),
                 child: Column(
                   spacing: 10,
                   mainAxisSize: MainAxisSize.min,
@@ -106,8 +100,10 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                       size: 20.h,
                       color: appTheme.primaryGray,
                     ),
-                    Text(bottomMenuList[index].title ?? "",
-                        style: theme.textTheme.titleSmall)
+                    Text(
+                      bottomMenuList[index].title ?? "",
+                      style: theme.textTheme.titleSmall,
+                    ),
                   ],
                 ),
               ),
@@ -115,9 +111,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
             activeIcon: SizedBox(
               width: double.maxFinite,
               child: Padding(
-                padding: EdgeInsetsDirectional.symmetric(
-                  vertical: 16.h,
-                ),
+                padding: EdgeInsetsDirectional.symmetric(vertical: 16.h),
                 child: Column(
                   spacing: 10,
                   mainAxisSize: MainAxisSize.min,
@@ -131,7 +125,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     Text(
                       bottomMenuList[index].title ?? "",
                       style: CustomTextStyles.bodyText,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -151,14 +145,14 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   }
 }
 
-// ignore_for_file: must_be_immutable
 class BottomMenuModel {
-  BottomMenuModel(
-      {required this.icon,
-      required this.activeIcon,
-      this.title,
-      required this.type,
-      this.isCircle = false});
+  BottomMenuModel({
+    required this.icon,
+    required this.activeIcon,
+    this.title,
+    required this.type,
+    this.isCircle = false,
+  });
 
   IconData icon;
 
@@ -184,10 +178,8 @@ class DefaultWidget extends StatelessWidget {
           children: [
             Text(
               'Please replace the respective Widget here',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            )
+              style: TextStyle(fontSize: 18),
+            ),
           ],
         ),
       ),
