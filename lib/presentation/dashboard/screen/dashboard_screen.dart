@@ -14,23 +14,23 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  Widget _getCurrentPage(BottomBarEnum type) {
-    switch (type) {
-      case BottomBarEnum.Home:
-        return ChatListScreen(); // Placeholder for now or actual content
-      case BottomBarEnum.Setting:
-        return const SettingScreen();
-      case BottomBarEnum.Profile:
-        return const SettingScreen();
-    }
-  }
-
   BottomBarEnum _selectedMenu = BottomBarEnum.Home;
+
+  final List<Widget> _pages = [
+    ChatListScreen(),
+    SettingScreen(),
+    SettingScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: _getCurrentPage(_selectedMenu)),
+      body: SafeArea(
+        child: IndexedStack(
+          index: BottomBarEnum.values.indexOf(_selectedMenu),
+          children: _pages,
+        ),
+      ),
       bottomNavigationBar: CustomBottomBar(
         selectedType: _selectedMenu,
         onChanged: (BottomBarEnum type) {

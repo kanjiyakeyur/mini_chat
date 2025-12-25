@@ -4,11 +4,21 @@ import 'package:mini_chat/presentation/dashboard/bloc/chat_list_bloc.dart';
 import 'package:mini_chat/presentation/dashboard/widgets/user_contact.dart';
 import 'package:mini_chat/theme/theme_helper.dart';
 
-class UserPage extends StatelessWidget {
+class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
 
   @override
+  State<UserPage> createState() => _UserPageState();
+}
+
+class _UserPageState extends State<UserPage>
+    with AutomaticKeepAliveClientMixin<UserPage> {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: BlocListener<ChatListBloc, ChatListState>(
@@ -17,9 +27,9 @@ class UserPage extends StatelessWidget {
         },
         listener: (context, state) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text("New contact added at the end of the list"),
-              duration: const Duration(seconds: 2),
+              duration: Duration(seconds: 2),
             ),
           );
         },
