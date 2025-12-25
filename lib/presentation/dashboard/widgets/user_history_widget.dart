@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
-import 'package:mini_chat/presentation/dashboard/models/user_model.dart';
+import 'package:mini_chat/data/user_model.dart';
 import 'package:mini_chat/presentation/dashboard/widgets/user_profile.dart';
 import 'package:mini_chat/theme/custom_text_style.dart';
 import 'package:mini_chat/theme/theme_helper.dart';

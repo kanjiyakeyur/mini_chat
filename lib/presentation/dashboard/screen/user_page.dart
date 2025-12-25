@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_chat/presentation/dashboard/bloc/chat_bloc.dart';
+import 'package:mini_chat/presentation/dashboard/bloc/chat_list_bloc.dart';
 import 'package:mini_chat/presentation/dashboard/widgets/user_contact.dart';
 import 'package:mini_chat/theme/theme_helper.dart';
 
@@ -14,7 +14,7 @@ class UserPage extends StatelessWidget {
       body: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          BlocBuilder<ChatBloc, ChatState>(
+          BlocBuilder<ChatListBloc, ChatListState>(
             builder: (context, state) {
               return ListView.builder(
                 padding: EdgeInsets.zero,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_chat/presentation/dashboard/screen/chat_screen.dart';
+import 'package:mini_chat/presentation/dashboard/screen/chat_list_screen.dart';
 import 'package:mini_chat/widgets/custom_bottom_bar.dart';
 
 import 'package:mini_chat/presentation/setting/screen/setting_screen.dart';
@@ -17,7 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _getCurrentPage(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:
-        return ChatScreen(); // Placeholder for now or actual content
+        return ChatListScreen(); // Placeholder for now or actual content
       case BottomBarEnum.Setting:
         return const SettingScreen();
       case BottomBarEnum.Profile:

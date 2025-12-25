@@ -1,4 +1,4 @@
-import 'user_model.dart';
+import '../../../data/user_model.dart';
 
 List<UserModel> dummyUsers = [
   UserModel(

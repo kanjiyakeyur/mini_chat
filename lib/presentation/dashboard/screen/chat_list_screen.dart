@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
-import 'package:mini_chat/presentation/dashboard/bloc/chat_bloc.dart';
+import 'package:mini_chat/presentation/dashboard/bloc/chat_list_bloc.dart';
 import 'package:mini_chat/presentation/dashboard/screen/chat_history._page.dart';
 import 'package:mini_chat/presentation/dashboard/screen/user_page.dart';
 import 'package:mini_chat/theme/custom_text_style.dart';
 import 'package:mini_chat/theme/theme_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+class ChatListScreen extends StatelessWidget {
+  const ChatListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +61,15 @@ class ChatScreen extends StatelessWidget {
                 pinned: false,
                 snap: true,
                 backgroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                scrolledUnderElevation: 0,
                 elevation: 0,
                 toolbarHeight: 80.h,
               ),
             ];
           },
           body: BlocProvider(
-            create: (context) => ChatBloc()..add(InitEvent()),
+            create: (context) => ChatListBloc()..add(InitEvent()),
             child: TabBarView(children: [UserPage(), ChatHistoryPage()]),
           ),
         ),
