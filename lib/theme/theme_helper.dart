@@ -1,8 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-
-
 LightCodeColors get appTheme => ThemeHelper().themeColor();
 
 ThemeData get theme => ThemeHelper().themeData();
@@ -27,9 +25,7 @@ class ThemeHelper {
 
 class ColorSchemes {
   static final lightCodeColorScheme = ColorScheme.light(
-    //primary: Color(0XFF5B82F9), //Blue
-    primary: Color(0XFFBA7041),
-    //Blue
+    primary: Color(0XFF5B82F9), // Blue
     primaryContainer: Color(0XFF242424),
     //Black
     errorContainer: Color(0X3F000000),
@@ -40,21 +36,20 @@ class ColorSchemes {
   );
 }
 
-
 class LightCodeColors {
-  Color get primary => Color(0XFFBA7041);
-  Color get primaryGray => Color(0XFFD7CFBA);
-  Color get primaryLight => Color(0XFFFFF0E6);
+  Color get primary => Color(0XFF5B82F9);
+  Color get primaryGray => Color(0XFFC4CDE0);
+  Color get primaryLight => Color(0XFFEBF0FF);
 
-  Color get background => Color(0XFFFFF9F5);
+  Color get background => Color(0XFFF8FAFF);
 
-  Color get white => Color(0XFFFFF9F5);
+  Color get white => Color(0XFFFFFFFF);
   Color get black => Color(0XFF2A2D26);
   Color get gray => Color(0XFF2A2C27);
   Color get lightGray => Color(0XFFD3D3D3);
 
-  Color get gradient1 => Color(0XFFF3E0D5);
-  Color get gradient2 => Color(0XFFFFF9F5);
+  Color get gradient1 => Color(0XFFDAE4FF);
+  Color get gradient2 => Color(0XFFF8FAFF);
 
   Color get redA200 => Color(0XFFF95B5B);
   Color get brown => Color(0XFF835D3C);
