@@ -76,11 +76,24 @@ class ChatItemWidget extends StatelessWidget {
                     : const Radius.circular(12),
               ),
             ),
-            child: Text(
+            child: SelectableText(
               chatModel.body ?? '',
               style: isAuthor
                   ? CustomTextStyles.bodyMedium.copyWith(color: Colors.white)
                   : CustomTextStyles.bodyMedium,
+              contextMenuBuilder: (context, editableTextState) {
+                return const SizedBox.shrink();
+              },
+              onSelectionChanged: (selection, cause) {
+                if (cause == SelectionChangedCause.longPress ||
+                    cause == SelectionChangedCause.doubleTap) {
+                  final text = chatModel.body ?? '';
+                  final selectedText = selection.textInside(text);
+                  if (selectedText.isNotEmpty) {
+                    _showMeaningBottomSheet(context, selectedText);
+                  }
+                }
+              },
             ),
           ),
           SizedBox(height: 4.h),
@@ -91,6 +104,31 @@ class ChatItemWidget extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+
+  void _showMeaningBottomSheet(BuildContext context, String word) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(word, style: CustomTextStyles.titleMedium),
+              const SizedBox(height: 8),
+              Text(
+                "This is a dummy meaning for '$word'. API integration pending.",
+                style: CustomTextStyles.bodyMedium,
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
     );
   }
 }

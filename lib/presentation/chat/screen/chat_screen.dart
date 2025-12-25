@@ -7,73 +7,95 @@ import 'package:mini_chat/theme/theme_helper.dart';
 import 'package:mini_chat/theme/custom_text_style.dart';
 import 'package:mini_chat/presentation/chat/widget/chat_itme_widget.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController messageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Long press or double tap a word to see its meaning"),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    messageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     UserModel user = ModalRoute.of(context)!.settings.arguments as UserModel;
     return BlocProvider(
       create: (context) => ChatBloc()..add(InitEvent(user: user)),
-      child: Builder(builder: (context) => Scaffold(
-        appBar: AppBar(
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(user.name!, style: CustomTextStyles.titleMedium),
-                  Text(
-                    (user.isOnline ?? false)
-                        ? 'Online'
-                        : user.lastSeen ?? 'Offline',
-                    style: CustomTextStyles.bodySmall.copyWith(
-                      color: (user.isOnline ?? false)
-                          ? Colors.green
-                          : appTheme.textSecondary,
-                    ),
+      child: Builder(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            centerTitle: false,
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(user.name!, style: CustomTextStyles.titleMedium),
+                Text(
+                  (user.isOnline ?? false)
+                      ? 'Online'
+                      : user.lastSeen ?? 'Offline',
+                  style: CustomTextStyles.bodySmall.copyWith(
+                    color: (user.isOnline ?? false)
+                        ? Colors.green
+                        : appTheme.textSecondary,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: BlocBuilder<ChatBloc, ChatState>(
-          builder: (context, state) {
-            if (state.status == ChatStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state.status == ChatStatus.failure) {
-              return Center(
-                child: Text(state.errorMessage ?? 'Something went wrong'),
-              );
-            } else {
-              if (state.chatData.isEmpty) {
-                return const Center(child: Text('No messages yet'));
+          ),
+          body: BlocBuilder<ChatBloc, ChatState>(
+            builder: (context, state) {
+              if (state.status == ChatStatus.loading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state.status == ChatStatus.failure) {
+                return Center(
+                  child: Text(state.errorMessage ?? 'Something went wrong'),
+                );
+              } else {
+                if (state.chatData.isEmpty) {
+                  return const Center(child: Text('No messages yet'));
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  itemCount: state.chatData.length,
+                  reverse: true,
+                  itemBuilder: (context, index) {
+                    final reversedIndex = state.chatData.length - 1 - index;
+                    return ChatItemWidget(
+                      chatModel: state.chatData[reversedIndex],
+                    );
+                  },
+                );
               }
-              return ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                itemCount: state.chatData.length,
-                reverse: true,
-                itemBuilder: (context, index) {
-                  final reversedIndex = state.chatData.length - 1 - index;
-                  return ChatItemWidget(
-                    chatModel: state.chatData[reversedIndex],
-                  );
-                },
-              );
-            }
-          },
+            },
+          ),
+          bottomNavigationBar: _buildMessageInput(context),
         ),
-        bottomNavigationBar: _buildMessageInput(context),
       ),
-    ),);
+    );
   }
 
   Widget _buildMessageInput(BuildContext context) {
-    final TextEditingController messageController = TextEditingController();
-
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom + 16,
