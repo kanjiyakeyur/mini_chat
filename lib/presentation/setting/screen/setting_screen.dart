@@ -5,6 +5,9 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Setting Screen")));
+    return Scaffold(body: Center(child: Text(
+      "Keyur Kanjiya \n kanjiyakeyur01@gmail.com",
+      textAlign: .center,
+      )));
   }
 }

@@ -32,6 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: SafeArea(child: _getCurrentPage(_selectedMenu)),
       bottomNavigationBar: CustomBottomBar(
+        selectedType: _selectedMenu,
         onChanged: (BottomBarEnum type) {
           setState(() {
             _selectedMenu = type;

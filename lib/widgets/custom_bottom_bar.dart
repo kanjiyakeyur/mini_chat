@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
 import 'package:mini_chat/localization/app_localization.dart';
-import 'package:mini_chat/theme/custom_box_decoration.dart';
-import 'package:mini_chat/theme/custom_text_style.dart';
+import 'package:mini_chat/localization/app_localization.dart';
 import 'package:mini_chat/theme/theme_helper.dart';
 
 enum BottomBarEnum { Home, Setting, Profile }
 
-// ignore_for_file: must_be_immutable
-class CustomBottomBar extends StatefulWidget {
-  CustomBottomBar({this.onChanged});
+// ignore: must_be_immutable
+class CustomBottomBar extends StatelessWidget {
+  CustomBottomBar({Key? key, required this.selectedType, this.onChanged})
+    : super(key: key);
 
-  Function(BottomBarEnum)? onChanged;
-
-  @override
-  CustomBottomBarState createState() => CustomBottomBarState();
-}
-
-class CustomBottomBarState extends State<CustomBottomBar> {
-  int selectedIndex = 0;
+  final BottomBarEnum selectedType;
+  final Function(BottomBarEnum)? onChanged;
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: Icons.home,
+      icon: Icons.home_outlined,
       activeIcon: Icons.home,
       title: "lbl_home".tr,
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
-      icon: Icons.settings,
+      icon: Icons.settings_outlined,
       activeIcon: Icons.settings,
       title: "lbl_setting".tr,
       type: BottomBarEnum.Setting,
     ),
     BottomMenuModel(
-      icon: Icons.person,
+      icon: Icons.person_outline,
       activeIcon: Icons.person,
       title: "lbl_profile".tr,
       type: BottomBarEnum.Profile,
@@ -43,107 +37,60 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    int selectedIndex = bottomMenuList.indexWhere(
+      (element) => element.type == selectedType,
+    );
+    if (selectedIndex == -1) selectedIndex = 0;
+
     return Container(
       decoration: BoxDecoration(
         color: appTheme.white,
-        borderRadius: BorderRadius.circular(12.h),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24.h),
+          topRight: Radius.circular(24.h),
+        ),
         boxShadow: [
           BoxShadow(
-            color: appTheme.lightGray,
-            spreadRadius: 1.h,
-            blurRadius: 1.h,
-            offset: Offset(0, -3),
+            color: appTheme.lightGray.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 10,
+            offset: const Offset(0, -2),
           ),
         ],
       ),
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedFontSize: 0,
-        elevation: 0,
-        currentIndex: selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        items: List.generate(bottomMenuList.length, (index) {
-          if (bottomMenuList[index].isCircle) {
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24.h),
+          topRight: Radius.circular(24.h),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          selectedFontSize: 12.fSize,
+          unselectedFontSize: 12.fSize,
+          elevation: 0,
+          currentIndex: selectedIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: theme.colorScheme.primary,
+          unselectedItemColor: appTheme.iconGray,
+          items: List.generate(bottomMenuList.length, (index) {
             return BottomNavigationBarItem(
-              icon: Container(
-                height: 48.h,
-                width: 48.h,
-                decoration: CustomBoxDecoration.fillGray,
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: [
-                    Icon(
-                      bottomMenuList[index].icon,
-                      size: 16.h,
-                      color: appTheme.white,
-                    ),
-                  ],
-                ),
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 4.h),
+                child: Icon(bottomMenuList[index].icon, size: 24.h),
               ),
-              label: '',
+              activeIcon: Padding(
+                padding: EdgeInsets.only(bottom: 4.h),
+                child: Icon(bottomMenuList[index].activeIcon, size: 26.h),
+              ),
+              label: bottomMenuList[index].title ?? "",
             );
-          }
-          return BottomNavigationBarItem(
-            icon: SizedBox(
-              width: double.maxFinite,
-              child: Padding(
-                padding: EdgeInsetsDirectional.symmetric(vertical: 16.h),
-                child: Column(
-                  spacing: 10,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      bottomMenuList[index].icon,
-                      size: 20.h,
-                      color: appTheme.iconGray,
-                    ),
-                    Text(
-                      bottomMenuList[index].title ?? "",
-                      style: CustomTextStyles.titleSmall.copyWith(
-                        color: appTheme.iconGray,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            activeIcon: SizedBox(
-              width: double.maxFinite,
-              child: Padding(
-                padding: EdgeInsetsDirectional.symmetric(vertical: 16.h),
-                child: Column(
-                  spacing: 10,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      bottomMenuList[index].activeIcon,
-                      size: 20.h,
-                      color: theme.colorScheme.primary,
-                    ),
-                    Text(
-                      bottomMenuList[index].title ?? "",
-                      style: CustomTextStyles.bodySmall.copyWith(
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            label: '',
-          );
-        }),
-        onTap: (index) {
-          if (index != selectedIndex) {
-            selectedIndex = index;
-            widget.onChanged?.call(bottomMenuList[index].type);
-            setState(() {});
-          }
-        },
+          }),
+          onTap: (index) {
+            onChanged?.call(bottomMenuList[index].type);
+          },
+        ),
       ),
     );
   }
