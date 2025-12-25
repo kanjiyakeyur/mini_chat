@@ -12,6 +12,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   ChatBloc() : super(const ChatState()) {
     on<InitEvent>(_onInitEvent);
+    on<SendMessageEvent>(_onSendMessageEvent);
+  }
+
+  void _onSendMessageEvent(SendMessageEvent event, Emitter<ChatState> emit) {
+    if (event.message.isEmpty) return;
+
+    final newMessage = ChatModel(
+      id:
+          (state.chatData.length + 1) *
+          2, // Even ID for Author (mock logic: even=author)
+      body: event.message,
+      createdAt: DateTime.now(),
+    );
+
+    final updatedList = List<ChatModel>.from(state.chatData)..add(newMessage);
+    emit(state.copyWith(chatData: updatedList));
   }
 
   Future<void> _onInitEvent(InitEvent event, Emitter<ChatState> emit) async {

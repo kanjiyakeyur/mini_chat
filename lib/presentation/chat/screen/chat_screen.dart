@@ -15,7 +15,7 @@ class ChatScreen extends StatelessWidget {
     UserModel user = ModalRoute.of(context)!.settings.arguments as UserModel;
     return BlocProvider(
       create: (context) => ChatBloc()..add(InitEvent(user: user)),
-      child: Scaffold(
+      child: Builder(builder: (context) => Scaffold(
         appBar: AppBar(
           actions: [
             Padding(
@@ -55,15 +55,69 @@ class ChatScreen extends StatelessWidget {
               return ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 itemCount: state.chatData.length,
-                reverse:
-                    false, // API likely returns chronological. reverse: false puts item 0 (oldest) at top.
+                reverse: true,
                 itemBuilder: (context, index) {
-                  return ChatItemWidget(chatModel: state.chatData[index]);
+                  final reversedIndex = state.chatData.length - 1 - index;
+                  return ChatItemWidget(
+                    chatModel: state.chatData[reversedIndex],
+                  );
                 },
               );
             }
           },
         ),
+        bottomNavigationBar: _buildMessageInput(context),
+      ),
+    ),);
+  }
+
+  Widget _buildMessageInput(BuildContext context) {
+    final TextEditingController messageController = TextEditingController();
+
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        left: 16,
+        right: 16,
+        top: 8,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: messageController,
+              decoration: InputDecoration(
+                hintText: 'Type a message...',
+                filled: true,
+                fillColor: appTheme.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          CircleAvatar(
+            backgroundColor: appTheme.primary,
+            child: IconButton(
+              icon: const Icon(Icons.send, color: Colors.white),
+              onPressed: () {
+                final message = messageController.text.trim();
+                if (message.isNotEmpty) {
+                  context.read<ChatBloc>().add(
+                    SendMessageEvent(message: message),
+                  );
+                  messageController.clear();
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
