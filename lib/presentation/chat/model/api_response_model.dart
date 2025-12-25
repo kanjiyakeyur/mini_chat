@@ -1,23 +1,18 @@
-
-
-import 'package:mini_chat/data/user_model.dart';
+import 'package:mini_chat/presentation/chat/model/chat_model.dart';
 
 class MockApiResponseModel {
-  final List<UserModel>? comments;
+  final List<ChatModel>? comments;
   final int? total;
   final int? skip;
   final int? limit;
 
-  MockApiResponseModel({
-    this.comments,
-    this.total,
-    this.skip,
-    this.limit,
-  });
+  MockApiResponseModel({this.comments, this.total, this.skip, this.limit});
 
   factory MockApiResponseModel.fromJson(Map<String, dynamic> json) {
     return MockApiResponseModel(
-      comments: List<UserModel>.from(json['comments'].map((x) => UserModel.fromJson(x))),
+      comments: List<ChatModel>.from(
+        json['comments'].map((x) => ChatModel.fromJson(x)),
+      ),
       total: json['total'],
       skip: json['skip'],
       limit: json['limit'],

@@ -18,15 +18,15 @@ class ChatApiRepository {
   ChatApiRepository._internal();
 
   Future<Either<AppException, MockApiResponseModel?>>
-  getWeeklySentiment() async {
-    final either = await apiClient.get('${ApiUrls.comments}?limit=10');
+  getChatMessages() async {
+    final either = await apiClient.get('${ApiUrls.comments}?limit=20');
 
     return either.fold((error) => Left(error), (res) {
       try {
         return Right(
-          (res.responseData == null)
+          (res.data == null)
               ? null
-              : MockApiResponseModel.fromJson(res.responseData),
+              : MockApiResponseModel.fromJson(res.data),
         );
       } catch (e) {
         return Left(

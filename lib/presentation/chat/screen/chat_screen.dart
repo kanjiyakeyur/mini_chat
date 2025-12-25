@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:mini_chat/theme/theme_helper.dart';
 import 'package:mini_chat/theme/custom_text_style.dart';
+import 'package:mini_chat/presentation/chat/widget/chat_itme_widget.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -38,6 +39,30 @@ class ChatScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        body: BlocBuilder<ChatBloc, ChatState>(
+          builder: (context, state) {
+            if (state.status == ChatStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.status == ChatStatus.failure) {
+              return Center(
+                child: Text(state.errorMessage ?? 'Something went wrong'),
+              );
+            } else {
+              if (state.chatData.isEmpty) {
+                return const Center(child: Text('No messages yet'));
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                itemCount: state.chatData.length,
+                reverse:
+                    false, // API likely returns chronological. reverse: false puts item 0 (oldest) at top.
+                itemBuilder: (context, index) {
+                  return ChatItemWidget(chatModel: state.chatData[index]);
+                },
+              );
+            }
+          },
         ),
       ),
     );
