@@ -4,3 +4,4 @@ class ChatListEvent {}
 
 class InitEvent extends ChatListEvent {}
 
+class AddUserEvent extends ChatListEvent {}
