@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
 import 'package:mini_chat/presentation/dashboard/models/user_model.dart';
 import 'package:mini_chat/presentation/dashboard/widgets/user_profile.dart';
+import 'package:mini_chat/theme/custom_text_style.dart';
 
 class UserContact extends StatelessWidget {
   UserModel user;
@@ -21,11 +22,12 @@ class UserContact extends StatelessWidget {
               mainAxisSize: .min,
               crossAxisAlignment: .start,
               children: [
-                Text(user.name ?? ''),
+                Text(user.name ?? '', style: CustomTextStyles.titleMedium),
                 Text(
                   user.isOnline ?? false
                       ? 'Online'
                       : user.lastSeen ?? 'Offline',
+                  style: CustomTextStyles.bodySmall,
                 ),
               ],
             ),

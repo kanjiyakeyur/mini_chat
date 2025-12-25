@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
 import 'package:mini_chat/presentation/dashboard/models/user_model.dart';
+import 'package:mini_chat/theme/custom_text_style.dart';
+import 'package:mini_chat/theme/theme_helper.dart';
 
 class UserProfile extends StatelessWidget {
   final UserModel user;
@@ -19,13 +21,20 @@ class UserProfile extends StatelessWidget {
             shape: BoxShape.circle,
             color: showGradient ? null : Colors.lightGreen.shade400,
             gradient: showGradient
-                ? LinearGradient(colors: [Colors.red, Colors.green])
+                ? LinearGradient(
+                    colors: [appTheme.gradientStart, appTheme.gradientEnd],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
                 : null,
           ),
           child: Center(
             child: Text(
-              (user.name ?? '*').substring(0, 1),
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              (user.name ?? '*').substring(0, 1).toUpperCase(),
+              style: CustomTextStyles.titleMedium.copyWith(
+                color: appTheme.white,
+                fontSize: 20.fSize,
+              ), // Override size/color for profile
             ),
           ),
         ),
@@ -39,8 +48,8 @@ class UserProfile extends StatelessWidget {
               width: 10.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.green,
-                border: Border.all(color: Colors.white, width: 2),
+                color: Colors.green, // Keep logic green for online
+                border: Border.all(color: appTheme.white, width: 2),
               ),
             ),
           ),

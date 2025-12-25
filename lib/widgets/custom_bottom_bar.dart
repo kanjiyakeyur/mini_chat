@@ -49,7 +49,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         borderRadius: BorderRadius.circular(12.h),
         boxShadow: [
           BoxShadow(
-            color: appTheme.primaryGray,
+            color: appTheme.lightGray,
             spreadRadius: 1.h,
             blurRadius: 1.h,
             offset: Offset(0, -3),
@@ -70,7 +70,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
               icon: Container(
                 height: 48.h,
                 width: 48.h,
-                decoration: AppDecoration.fillGray,
+                decoration: CustomBoxDecoration.fillGray,
                 child: Stack(
                   alignment: AlignmentDirectional.center,
                   children: [
@@ -98,11 +98,13 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     Icon(
                       bottomMenuList[index].icon,
                       size: 20.h,
-                      color: appTheme.primaryGray,
+                      color: appTheme.iconGray,
                     ),
                     Text(
                       bottomMenuList[index].title ?? "",
-                      style: theme.textTheme.titleSmall,
+                      style: CustomTextStyles.titleSmall.copyWith(
+                        color: appTheme.iconGray,
+                      ),
                     ),
                   ],
                 ),
@@ -124,7 +126,9 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     ),
                     Text(
                       bottomMenuList[index].title ?? "",
-                      style: CustomTextStyles.bodyText,
+                      style: CustomTextStyles.bodySmall.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),

@@ -1,15 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
 import 'package:mini_chat/theme/theme_helper.dart';
 
-class AppDecoration {
-
+class CustomBoxDecoration {
   static BoxDecoration get screenBackground =>
       BoxDecoration(color: appTheme.background);
 
   static BoxDecoration get fillGray => BoxDecoration(
-    color: appTheme.primaryGray,
+    color: appTheme.lightGray,
     borderRadius: CustomBorderRadiusStyle.border30,
   );
 
@@ -21,8 +19,8 @@ class AppDecoration {
     borderRadius: CustomBorderRadiusStyle.border10,
   );
 
-  static BoxDecoration get fillPrimaryGrayB10 => BoxDecoration(
-    color: appTheme.primaryGray,
+  static BoxDecoration get fillGrayB10 => BoxDecoration(
+    color: appTheme.lightGray,
     borderRadius: CustomBorderRadiusStyle.border10,
   );
 
@@ -31,14 +29,14 @@ class AppDecoration {
     borderRadius: CustomBorderRadiusStyle.border50,
   );
 
-  static BoxDecoration get borderPrimaryB10 => BoxDecoration(
+  static BoxDecoration get borderGrayB10 => BoxDecoration(
     borderRadius: CustomBorderRadiusStyle.border10,
-    border: Border.all(color: appTheme.primaryGray, width: 1.h),
+    border: Border.all(color: appTheme.lightGray, width: 1.h),
   );
 
-  static BoxDecoration get borderPrimaryB50 => BoxDecoration(
+  static BoxDecoration get borderGrayB50 => BoxDecoration(
     borderRadius: CustomBorderRadiusStyle.border50,
-    border: Border.all(color: appTheme.primaryGray, width: 1.h),
+    border: Border.all(color: appTheme.lightGray, width: 1.h),
   );
 
   static BoxDecoration get borderWhiteB50 => BoxDecoration(
@@ -46,10 +44,10 @@ class AppDecoration {
     border: Border.all(color: appTheme.white, width: 1.h),
   );
 
-  static BoxDecoration get borderPrimaryWithPrimaryLightB50 => BoxDecoration(
+  static BoxDecoration get borderPrimaryWithLightB50 => BoxDecoration(
     borderRadius: CustomBorderRadiusStyle.border50,
     border: Border.all(color: appTheme.primary, width: 1.h),
-    color: appTheme.primaryLight,
+    color: appTheme.primary.withOpacity(0.1),
   );
 
   static BoxDecoration get userChatBubble => BoxDecoration(
@@ -57,9 +55,14 @@ class AppDecoration {
     color: appTheme.primary,
   );
 
+  static BoxDecoration get friendChatBubble => BoxDecoration(
+    borderRadius: CustomBorderRadiusStyle.aiChatBubble,
+    color: appTheme.lightGray, // or white depending on design
+  );
+
   static BoxDecoration get userFileChatBubble => BoxDecoration(
     borderRadius: CustomBorderRadiusStyle.userChatBubble,
-    color: appTheme.primaryLight,
+    color: appTheme.primary.withOpacity(0.1),
     border: Border.all(color: appTheme.primary, width: 1.h),
   );
 
@@ -95,7 +98,7 @@ class AppDecoration {
     borderRadius: CustomBorderRadiusStyle.border10,
     boxShadow: [
       BoxShadow(
-        color: appTheme.black.withValues(alpha: 0.1),
+        color: appTheme.black.withOpacity(0.1),
         blurRadius: 8,
         offset: Offset(0, 2),
       ),

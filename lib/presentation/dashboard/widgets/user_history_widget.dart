@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mini_chat/core/size_utils.dart';
 import 'package:mini_chat/presentation/dashboard/models/user_model.dart';
 import 'package:mini_chat/presentation/dashboard/widgets/user_profile.dart';
+import 'package:mini_chat/theme/custom_text_style.dart';
+import 'package:mini_chat/theme/theme_helper.dart';
 
 class UserHistoryWidget extends StatelessWidget {
   UserModel user;
@@ -23,27 +25,34 @@ class UserHistoryWidget extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: .spaceBetween,
-                  children: [Text(user.name ?? ''), Text(user.lastSeen ?? '')],
+                  children: [
+                    Text(user.name ?? '', style: CustomTextStyles.titleMedium),
+                    Text(
+                      user.lastSeen ?? '',
+                      style: CustomTextStyles.bodySmall,
+                    ),
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
-                    Text(user.lastMessage ?? '', style: TextStyle(
-                           fontSize: 12.fSize,
-                         ),),
+                    Text(
+                      user.lastMessage ?? '',
+                      style: CustomTextStyles.bodySmall,
+                    ),
                     Container(
                       width: 16.h,
                       height: 16.h,
                       decoration: BoxDecoration(
-                        color: Colors.blueAccent.shade400,
+                        color: appTheme.primary,
                         borderRadius: BorderRadius.circular(10.h),
                       ),
                       child: Center(
-                        child: Text((user.unreadMessageCount ?? 0).toString(),
-                         style: TextStyle(
-                           color: Colors.white,
-                           fontSize: 12.fSize,
-                         ),
+                        child: Text(
+                          (user.unreadMessageCount ?? 0).toString(),
+                          style: CustomTextStyles.labelLarge.copyWith(
+                            fontSize: 10.fSize,
+                          ),
                         ),
                       ),
                     ),
